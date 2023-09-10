@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>Python Flask Upload and display image</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />        
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+
+<body>
+<p><h1 align="center">Construction Detection System</h1></p>
+<div class="container">
+  
+<div class="row">
+    <h2>Select a file to upload</h2>
+    <p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </p>
+    <form method="post" action="/" enctype="multipart/form-data">
+      <dl>
+        <p>
+          <input type="file" name="file" class="form-control" autocomplete="off" required>
+        </p>
+      </dl>
+      <p>
+        <input type="submit" value="Submit" class="btn btn-info">
+      </p>
+    </form>
+  </div>
+  {% if filename %}
+      <div>
+          <img src="{{ url_for('display_image', filename=filename) }}">
+      </div>
+  {% endif %}
+
+
+  {% if cnn_predicted_class %}
+  <div>
+      <h2>CNN Prediction:</h2>
+      <table>
+          <tr>
+              <td>Predicted Class:</td>
+              <td>{{ cnn_predicted_class[0] }}</td>
+          </tr>
+          <tr>
+              <td>Confidence Score:</td>
+              <td>{{ cnn_predicted_class[1] }}</td>
+          </tr>
+      </table>
+  </div>
+{% endif %}
+
+{% if vgg_predicted_class %}
+  <div>
+      <h2>VGG19 Prediction:</h2>
+      <table>
+          <tr>
+              <td>Predicted Class:</td>
+              <td>{{ vgg_predicted_class[0] }}</td>
+          </tr>
+          <tr>
+              <td>Confidence Score:</td>
+              <td>{{ vgg_predicted_class[1] }}</td>
+          </tr>
+      </table>
+  </div>
+{% endif %}
+
+{% if resnet_predicted_class %}
+  <div>
+      <h2>Resnet50 Prediction:</h2>
+      <table>
+          <tr>
+              <td>Predicted Class:</td>
+              <td>{{ resnet_predicted_class[0] }}</td>
+          </tr>
+          <tr>
+              <td>Confidence Score:</td>
+              <td>{{ resnet_predicted_class[1] }}</td>
+          </tr>
+      </table>
+  </div>
+{% endif %}
+
+
+{% if predicted_path %}
+    <div>
+        <h2>Segmented Image:</h2>
+        <img src="{{ url_for('static', filename='predicted_images_segment/segment.png') }}" alt="Segmented Image">
+
+    </div>
+{% endif %}
+
+
+</div>
+</body>
+</html>

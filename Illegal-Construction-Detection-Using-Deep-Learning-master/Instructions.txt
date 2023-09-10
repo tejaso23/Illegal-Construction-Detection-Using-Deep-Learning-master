@@ -1,0 +1,7 @@
+1. First run the files in training folder and generate the models.
+
+2. Put all the models in models folder.
+
+3. To run project run the below command -
+
+	python app.py
